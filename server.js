@@ -8,13 +8,14 @@ const morgan = require("morgan");
 const presensiRoutes = require("./routes/presensi");
 const reportRoutes = require("./routes/reports");
 const ruteBuku = require("./routes/books"); // Rute dari modul sebelumnya (asumsi ada)
+const authRoutes = require("./routes/auth");
 
 // Application-level Middleware (Third-party)
 app.use(cors()); // Mengizinkan CORS (Cross-Origin Resource Sharing)
 app.use(express.json()); // Built-in: parsing body JSON
 // app.use(helmet()); // Middleware keamanan (tidak diaktifkan di sini untuk kesederhanaan, tapi bagus untuk digunakan)
 app.use(morgan("dev")); // Third-party: logging HTTP requests
-
+app.use('/api/auth', authRoutes);
 // Application-level Middleware (Custom)
 app.use(( req , res , next ) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
