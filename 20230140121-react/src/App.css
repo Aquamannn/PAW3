@@ -1,0 +1,52 @@
+.App {
+  text-align: center;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+
+.input-section {
+  margin: 2rem 0;
+}
+
+.input-section label {
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+}
+
+.input-section input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  width: 200px;
+}
+
+.input-section input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.welcome-message {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.welcome-message h2 {
+  color: #333;
+  margin: 0;
+}
+
+.server-message {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #e9ecef;
+  border-radius: 8px;
+}
+
+.server-message p {
+  margin: 0;
+  color: #495057;
+}
