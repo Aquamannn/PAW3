@@ -1,26 +1,29 @@
-const { Presensi } = require("../models");
+const { Presensi, User } = require("../models");
 const { Op } = require("sequelize");
 
 exports.getDailyReport = async (req, res) => {
   try {
-    const { nama } = req.query; // Ambil parameter 'nama'
-    let options = { where: {} };
+    const { nama } = req.query;
 
-    if (nama) { // Jika parameter 'nama' ada
-      options.where.nama = {
-        [Op.like]: `%${nama}%`, // Filter berdasarkan nama (like)
-      };
-    }
+    let queryOptions = {
+      include: [
+        {
+          model: User,
+          as: 'user', // <--- PENTING: Tambahan dari kode Asdos (sesuai Model)
+          attributes: ['nama', 'email'], 
+          where: nama ? { nama: { [Op.like]: `%${nama}%` } } : undefined
+        }
+      ],
+      order: [['checkIn', 'DESC']] // <--- PENTING: Tambahan dari kode Kamu (biar urut)
+    };
 
-    const records = await Presensi.findAll(options);
+    const records = await Presensi.findAll(queryOptions);
 
-    res.json({
-      reportDate: new Date().toLocaleDateString(),
-      data: records,
-    });
+    // Kirim Array langsung agar cocok dengan Frontend React kamu
+    res.json(records);
+
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Gagal mengambil laporan", error: error.message });
+    console.error(error);
+    res.status(500).json({ message: "Gagal mengambil laporan", error: error.message });
   }
 };

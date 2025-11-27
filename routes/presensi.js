@@ -1,21 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const presensiController = require('../controllers/presensiController');
-const { addUserData } = require('../middleware/permissionMiddleware');
+// PERBAIKAN 1: Import 'authenticateToken', bukan 'addUserData'
+const { authenticateToken } = require('../middleware/permissionMiddleware');
 
-// Router-level middleware: addUserData akan dijalankan untuk semua rute di router ini
-router.use(addUserData); 
+// PERBAIKAN 2: Gunakan middleware token ini untuk memproteksi route presensi
+// Middleware ini akan memastikan req.user terisi data dari token
+router.use(authenticateToken); 
 
-router.post('/check-in', presensiController.CheckIn);
-router.post('/check-out', presensiController.CheckOut);
-// ... kode router sebelumnya
-router.delete('/:id', presensiController.deletePresensi);
-// ...
-// Rute GET publik untuk melihat semua data di browser
-router.get('/', presensiController.getAllRecords);
-// ... kode router sebelumnya
+// PERBAIKAN 3: Sesuaikan nama fungsi controller (checkIn & checkOut huruf kecil)
+// sesuai dengan yang kita buat di presensiController.js sebelumnya
+router.post('/check-in', presensiController.checkIn);
+router.post('/check-out', presensiController.checkOut);
+
+// Route lainnya
+router.get('/', presensiController.getAllRecords); // Ini sekarang terproteksi token juga
 router.put("/:id", presensiController.updatePresensi);
 router.delete("/:id", presensiController.deletePresensi);
-// ...
 
 module.exports = router;

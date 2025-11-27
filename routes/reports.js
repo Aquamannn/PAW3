@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const reportController = require('../controllers/reportController');
-const { addUserData, isAdmin } = require('../middleware/permissionMiddleware');
+// PERBAIKAN: Import 'authenticateToken' bukan 'addUserData'
+const { authenticateToken, isAdmin } = require('../middleware/permissionMiddleware');
 
-// Menerapkan multiple middleware (addUserData dan isAdmin) dalam bentuk array
-router.get('/daily', [addUserData, isAdmin], reportController.getDailyReport);
+// Gunakan authenticateToken untuk memastikan user login, lalu isAdmin untuk memastikan dia admin
+router.get('/daily', [authenticateToken, isAdmin], reportController.getDailyReport);
 
 module.exports = router;

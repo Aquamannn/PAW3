@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Tambahkan 'Link' di sini
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -9,23 +9,17 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    setError(null); 
-
+    e.preventDefault();
+    setError(null);
     try {
-      
       const response = await axios.post('http://localhost:3001/api/auth/login', {
         email: email,
         password: password
       });
-
       const token = response.data.token;
-      localStorage.setItem('token', token); 
-
+      localStorage.setItem('token', token);
       navigate('/dashboard');
-
     } catch (err) {
-      // 4. Tangani error dari server
       setError(err.response ? err.response.data.message : 'Login gagal');
     }
   };
@@ -38,10 +32,7 @@ function LoginPage() {
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label 
-              htmlFor="email" 
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email:
             </label>
             <input
@@ -54,10 +45,7 @@ function LoginPage() {
             />
           </div>
           <div>
-            <label 
-              htmlFor="password" 
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password:
             </label>
             <input
@@ -76,6 +64,16 @@ function LoginPage() {
             Login
           </button>
         </form>
+
+        {/* --- BAGIAN TAMBAHAN DI SINI --- */}
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Belum punya akun?{' '}
+          <Link to="/register" className="text-blue-600 hover:underline font-medium">
+            Daftar di sini
+          </Link>
+        </p>
+        {/* ------------------------------- */}
+
         {error && (
           <p className="text-red-600 text-sm mt-4 text-center">{error}</p>
         )}
@@ -83,4 +81,5 @@ function LoginPage() {
     </div>
   );
 }
+
 export default LoginPage;
