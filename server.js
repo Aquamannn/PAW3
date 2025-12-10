@@ -3,6 +3,7 @@ const cors = require("cors");
 const app = express();
 const PORT = 3001;
 const morgan = require("morgan");
+const path = require('path');
 
 // --- TAMBAHAN PENTING: Import Database ---
 const db = require("./models"); 
@@ -35,6 +36,7 @@ app.use('/api/auth', authRoutes);
 // app.use("/api/books", ruteBuku); 
 app.use("/api/presensi", presensiRoutes); 
 app.use("/api/reports", reportRoutes); 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // --- BAGIAN INI DIUBAH AGAR MEMBUAT TABEL OTOMATIS ---

@@ -85,6 +85,11 @@ function ReportPage() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Nama User
                 </th>
+                {/* --- TAMBAHAN MODUL 10: Header Kolom Foto --- */}
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Bukti Foto
+                </th>
+                {/* ------------------------------------------- */}
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Waktu Check-In
                 </th>
@@ -101,9 +106,30 @@ function ReportPage() {
                 reports.map((presensi) => (
                   <tr key={presensi.id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {/* PERBAIKAN DISINI: Ganti .User jadi .user (huruf kecil) */}
                       {presensi.user ? presensi.user.nama : "Nama tidak ditemukan"}
                     </td>
+                    
+                    {/* --- TAMBAHAN MODUL 10: Isi Kolom Foto --- */}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {presensi.buktiFoto ? (
+                        <a 
+                          href={`http://localhost:3001/${presensi.buktiFoto}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          title="Klik untuk memperbesar"
+                        >
+                          <img 
+                            src={`http://localhost:3001/${presensi.buktiFoto}`} 
+                            alt="Selfie" 
+                            className="h-12 w-12 rounded-full object-cover border-2 border-gray-200 hover:border-blue-500 transition-colors"
+                          />
+                        </a>
+                      ) : (
+                        <span className="text-gray-400 text-xs italic">Tidak ada foto</span>
+                      )}
+                    </td>
+                    {/* ---------------------------------------- */}
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(presensi.checkIn).toLocaleString()}
                     </td>
@@ -123,7 +149,7 @@ function ReportPage() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan="5" className="px-6 py-4 text-center text-gray-500">
                     Belum ada data presensi.
                   </td>
                 </tr>
